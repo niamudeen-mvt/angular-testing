@@ -1,0 +1,11 @@
+<section class="h-hero flexCenter relative">
+  <select class="absolute right-0 top-5" (change)="selectedChange($event)">
+    <option value="en" class="cursor-pointer">English</option>
+    <option value="es" class="cursor-pointer">Spanish</option>
+  </select>
+  <div>
+    <p>{{ date1 | customDate}}</p>
+    <h1>{{ 'main.welcomeMessage' | translate }}
+    </h1>
+  </div>
+</section>

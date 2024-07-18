@@ -1,0 +1,11 @@
+<header class="flex justify-between items-center bg-soft-theme h-16 px-5">
+  <a class="cursor-pointer" routerLink="/">Angular</a>
+  <nav>
+    <ul class="flex gap-4">
+      <li *ngFor="let menu of navMenu">
+        <a class="cursor-pointer text-sm" routerLink="/{{menu.path}}" routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">{{menu.title}}</a>
+      </li>
+    </ul>
+  </nav>
+</header>

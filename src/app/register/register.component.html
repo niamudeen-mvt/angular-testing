@@ -1,0 +1,19 @@
+<section class="h-hero flexCenter">
+  <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)"
+    class="max-w-sm mx-auto flex flex-col gap-10 p-10 shadow-md rounded-xl">
+    <h3 class="text-4xl font-semibold text-soft-theme text-center">Signup Form</h3>
+    <div class="relative z-0 w-full group" *ngFor="let val of signupFormArray">
+      <input type="email" name="{{val.name}}" id="{{val.name}}"
+        class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-soft-theme peer"
+        placeholder=" " ngModel />
+      <label for="{{val.name}}"
+        class="peer-focus:font-medium absolute text-sm  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-soft-theme peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 capitalize mb-3">{{val.name}}</label>
+    </div>
+    <div>
+      <button type="submit"
+        class="bg-soft-theme hover:bg-dark-theme focus:outline-none font-medium rounded-lg text-sm !w-full sm:w-auto px-5 py-2.5 text-center mb-4">Submit</button>
+      <p class="text-xs  text-center text-gray-400">Already have an account? <a class="cursor-pointer text-dark-theme "
+          routerLink="/login">Sign in</a></p>
+    </div>
+  </form>
+</section>
