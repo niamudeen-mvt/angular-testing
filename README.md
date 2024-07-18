@@ -25,3 +25,18 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## How to user tables in Angular
+
+Use this official link below to implment the table feature in the angular
+https://material.angular.io/guide/getting-started
+
+1. run : ng add @angular/material
+<table mat-table [dataSource]="dataSource">
+   <ng-container matColumnDef="position">
+     <th mat-header-cell *matHeaderCellDef> No. </th>
+     <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+   </ng-container>
+   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+ </table>

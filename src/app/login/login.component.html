@@ -1,6 +1,5 @@
 <section class="h-hero flexCenter">
-  <form class="max-w-sm mx-auto flex flex-col gap-8 p-10 shadow-md rounded-xl" (ngSubmit)="onSubmit()"
-    [formGroup]="formGroup">
+  <form class="basicForm" (ngSubmit)="onSubmit()" [formGroup]="formGroup">
 
     <h3 class="text-4xl font-semibold text-soft-theme text-center">Signin Form</h3>
     <app-input [control]="formGroup.controls.email" inputType="text" inputName="email"

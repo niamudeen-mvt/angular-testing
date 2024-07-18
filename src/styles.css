@@ -28,6 +28,12 @@ select {
   }
 }
 
+@layer components {
+  .basicForm {
+    @apply max-w-sm w-full mx-auto flex flex-col gap-8 p-10 shadow-md rounded-xl;
+  }
+}
+
 @layer utilities {
   .flexCenter {
     @apply flex justify-center items-center;

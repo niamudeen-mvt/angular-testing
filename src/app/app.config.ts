@@ -3,17 +3,21 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
+import {
+  HttpClient,
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
+  return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
 }
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), 
-    provideHttpClient(
-    withInterceptors([])
-  ),
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([])),
     importProvidersFrom(
       TranslateModule.forRoot({
         loader: {
@@ -22,6 +26,8 @@ export const appConfig: ApplicationConfig = {
           deps: [HttpClient],
         },
       })
-    )
-  ]
+    ),
+    provideAnimationsAsync(),
+    provideAnimationsAsync(),
+  ],
 };

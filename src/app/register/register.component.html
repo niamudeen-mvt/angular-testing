@@ -1,6 +1,5 @@
 <section class="h-hero flexCenter">
-  <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)"
-    class="max-w-sm mx-auto flex flex-col gap-10 p-10 shadow-md rounded-xl">
+  <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)" class="basicForm">
     <h3 class="text-4xl font-semibold text-soft-theme text-center">Signup Form</h3>
     <div class="relative z-0 w-full group" *ngFor="let val of signupFormArray">
       <input type="email" name="{{val.name}}" id="{{val.name}}"

@@ -1,25 +1,25 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { CounterComponent } from './counter/counter.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ToastComponent } from './components/toast/toast.component';
+import { TranslationService } from './service/translate.service';
 import { TranslateService } from '@ngx-translate/core';
-import { CounterService } from './service/counter.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CounterComponent, RouterLink,HeaderComponent, ToastComponent],
+  imports: [RouterOutlet, RouterLink, HeaderComponent, ToastComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
-
-  constructor(private translate: TranslateService, private lang : CounterService) {
-    
-    this.lang.currentLang$.subscribe((el)=>{
-      translate.use(el)
-    })
-    translate.setDefaultLang('en');
+  constructor(
+    private _translate: TranslateService,
+    private _translationService: TranslationService
+  ) {
+    this._translationService.currentLang$.subscribe((lang) => {
+      this._translate.use(lang);
+    });
+    this._translate.setDefaultLang('en');
   }
 }
