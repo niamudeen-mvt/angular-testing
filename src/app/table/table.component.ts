@@ -3,25 +3,30 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ApiService } from '../service/api.service';
+import { LoaderComponent } from '../components/loader/loader.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, LoaderComponent],
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
 })
-export class TableComponent implements OnInit, AfterViewInit {
+export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   date1 = new Date();
   test$: string = 'test$';
   displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<any>([]);
+  showLoader: boolean = false;
+  subscription!: Subscription;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -31,7 +36,12 @@ export class TableComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this._apiService
+    this.fetchUsers();
+  }
+
+  fetchUsers() {
+    this.showLoader = true;
+    this.subscription = this._apiService
       .get('https://jsonplaceholder.typicode.com/users')
       .subscribe((res: any) => {
         if (res.length > 0) {
@@ -45,6 +55,7 @@ export class TableComponent implements OnInit, AfterViewInit {
           const columns = Object.keys(usersList[0]);
           this.dataSource.data = usersList;
           this.displayedColumns = columns;
+          this.showLoader = false;
           this.cdr.detectChanges();
         }
       });
@@ -54,6 +65,12 @@ export class TableComponent implements OnInit, AfterViewInit {
     if (this.dataSource) {
       this.dataSource.paginator = this.paginator;
       this.cdr.detectChanges();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 }

@@ -26,6 +26,9 @@ select {
   .active {
     @apply font-medium;
   }
+  .default-overlay {
+    @apply bg-blue-800/50;
+  }
 }
 
 @layer components {

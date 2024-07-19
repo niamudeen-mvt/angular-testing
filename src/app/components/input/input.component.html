@@ -1,19 +1,15 @@
 <div>
   <label for="password-error" class="block mb-2 text-sm font-medium capitalize"
-  [ngClass]="isFormSubmitted && control.invalid && control.touched && control.dirty ? 'text-red-700' : ''"
-  >{{inputName}}</label>
-  <input type="{{inputType}}" class="border text-sm rounded-lg  block w-full p-2.5 focus:ring-1 focus:ring-soft-theme focus:outline-none" placeholder="{{inputPlaceholder}}" [formControl]="control"
-  [ngClass]="isFormSubmitted &&control.invalid && control.touched && control.dirty ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500  focus:border-red-500' : ''"
-  >
-  <ng-container
-  *ngIf="isFormSubmitted && control.invalid && control.touched && control.dirty"
-  >
-  <div *ngFor="let err of control.errors | keyvalue">
-    <p class="mt-2 text-sm text-red-600">
-      <span class="font-medium">{{ errorMessage[err.key] }}</span>
-    </p>
-  </div>
+    [ngClass]="isFormSubmitted && control.invalid && control.touched && control.dirty ? 'text-red-700' : ''">{{inputName}}</label>
+  <input type="{{inputType}}"
+    class="border text-sm rounded-lg  block w-full p-2.5 focus:ring-1 focus:ring-soft-theme focus:outline-none"
+    placeholder="{{inputPlaceholder}}" [formControl]="control"
+    [ngClass]="isFormSubmitted &&control.invalid && control.touched && control.dirty ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500  focus:border-red-500' : ''">
+  <ng-container *ngIf="isFormSubmitted && control.invalid ">
+    <div *ngFor="let err of control.errors | keyvalue">
+      <p class="mt-2 text-sm text-red-600">
+        <span class="font-medium">{{ errorMessage[err.key] }}</span>
+      </p>
+    </div>
   </ng-container>
 </div>
-
-

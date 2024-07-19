@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { InputComponent } from '../components/input/input.component';
 import { RouterLink } from '@angular/router';
+import { ApiService } from '../service/api.service';
 
 @Component({
   selector: 'app-login',
@@ -25,14 +26,29 @@ export class LoginComponent implements OnInit {
       Validators.minLength(3),
     ]),
   });
-  constructor() {}
+  constructor(private _apiService: ApiService) {}
 
   ngOnInit(): void {}
 
   onSubmit() {
     this.isFormSubmitted = true;
     if (this.formGroup.valid) {
-      console.log(this.formGroup.value);
+      const { email, password} = this.formGroup.value;
+
+      this._apiService
+        .post('http://localhost:7000/signin', {
+          email,
+          password,
+        })
+        .subscribe((res: any) => {
+          console.log('res: ', res);
+          // if (res.token) {
+          //   localStorage.setItem('token', res.token);
+          //   this.isFormSubmitted = false;
+          // }
+          this.formGroup.markAsUntouched();
+        });
+
     }
   }
 }

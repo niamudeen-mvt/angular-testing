@@ -6,25 +6,24 @@ import { Component, Input, OnInit } from '@angular/core';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './toast.component.html',
-  styleUrl: './toast.component.css'
+  styleUrl: './toast.component.css',
 })
 export class ToastComponent implements OnInit {
   @Input() title: string = 'toast';
   @Input() desc: string = 'desc';
-  @Input() accept:string = 'accept';
-  @Input() cancel:string = 'cancel';
-  
-  isShow : boolean = false
+  @Input() accept: string = 'accept';
+  @Input() cancel: string = 'cancel';
+
+  isShow: boolean = false;
   ngOnInit(): void {
-    // this.isShow = true
+    this.isShow = true;
   }
 
-
-  onAccept(){
-    this.isShow = false
+  onAccept() {
+    this.isShow = false;
   }
 
-  onCancel(){ 
-    this.isShow = false
+  onCancel() {
+    this.isShow = false;
   }
 }
