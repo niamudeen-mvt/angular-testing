@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterModule } from '@angular/router';
-import { routes } from '../../app.routes';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthGuard } from '../../service/auth-guard.service';
+import { routes } from '../../app.routes';
 
 @Component({
   selector: 'app-header',
@@ -12,10 +13,23 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent implements OnInit {
   navMenu: any = [];
+  isLoggedIn: boolean = false;
+  protectedRoutes = ['dashboard'];
+  publicRoutes = ['', 'register', 'login'];
 
-  constructor() {}
+  constructor(private _authGuard: AuthGuard, private _router: Router) {}
 
   ngOnInit() {
     this.navMenu = routes;
+
+    this._authGuard.isLoggedIn.subscribe((isLoggedIn) => {
+      this.isLoggedIn = isLoggedIn;
+    });
+  }
+
+  logout() {
+    localStorage.removeItem('isLoggedIn');
+    this._router.navigate(['/login']);
+    this._authGuard.isLoggedIn.next(false);
   }
 }

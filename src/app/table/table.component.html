@@ -1,5 +1,6 @@
-<div class="shadow p-5">
-  <table mat-table [dataSource]="dataSource">
+<div class="shadow p-5 w-full overflow-x-auto">
+  <table mat-table [dataSource]="dataSource"
+  >
     <div *ngFor="let val of displayedColumns">
       <ng-container matColumnDef="{{val}}">
         <th class="!bg-soft-theme" mat-header-cell *matHeaderCellDef> {{val}}</th>

@@ -1,4 +1,36 @@
 <section class="h-hero flexCenter">
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="basicForm">
+    <h3 class="text-4xl font-semibold text-soft-theme text-center">Signup Form</h3>
+    <div class="relative z-0 w-full group" *ngFor="let val of signupFormArray">
+      <input type="email" formControlName="{{val.name}}" id="{{val.name}}"
+        class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-soft-theme peer"
+        placeholder=" " ngModel />
+      <label for="{{val.name}}"
+        class="peer-focus:font-medium absolute text-sm  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-soft-theme peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 capitalize mb-3">{{val.name}}</label>
+      <ng-container *ngIf="signupForm.get(val.name)?.invalid && isFormSubmitted">
+        <p class="mt-2 text-sm text-red-600" *ngIf="signupForm.get(val.name)?.errors?.['required']">
+          <span class="font-medium">{{ errorMessage['required'] }}</span>
+        </p>
+        <p class="mt-2 text-sm text-red-600" *ngIf="!signupForm.get(val.name)?.errors?.['required']">
+          <span class="font-medium">{{ errorMessage[val.name] }}</span>
+        </p>
+      </ng-container>
+    </div>
+    <div>
+      <button type="submit"
+        class="bg-soft-theme hover:bg-dark-theme focus:outline-none font-medium rounded-lg text-sm !w-full sm:w-auto px-5 py-2.5 text-center mb-4">Submit</button>
+      <p class="text-xs  text-center text-gray-400">Already have an account? <a class="cursor-pointer text-dark-theme "
+          routerLink="/login">Sign in</a></p>
+    </div>
+  </form>
+
+  <app-toast title="Hey !" desc="This user already exists" [accept]="'Continue'"></app-toast>
+
+</section>
+
+
+<!-- TEMPLATE DRIVEN FORM -->
+<!-- <section class="h-hero flexCenter">
   <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)" class="basicForm">
     <h3 class="text-4xl font-semibold text-soft-theme text-center">Signup Form</h3>
     <div class="relative z-0 w-full group" *ngFor="let val of signupFormArray">
@@ -15,4 +47,4 @@
           routerLink="/login">Sign in</a></p>
     </div>
   </form>
-</section>
+</section> -->

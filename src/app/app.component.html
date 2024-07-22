@@ -1,5 +1,5 @@
 <main class="container mx-auto">
-  <app-header></app-header>
+  <app-header *ngIf="showHeader"></app-header>
   <section class="px-5">
     <app-toast title="Welcome" desc="Thanks for joining, It's great to have you!" accept="Yes" cancel="No"></app-toast>
     <router-outlet></router-outlet>

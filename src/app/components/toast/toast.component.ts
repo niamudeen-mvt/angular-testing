@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { ToastService } from '../../service/toast.service';
 
 @Component({
   selector: 'app-toast',
@@ -11,19 +12,22 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ToastComponent implements OnInit {
   @Input() title: string = 'toast';
   @Input() desc: string = 'desc';
-  @Input() accept: string = 'accept';
-  @Input() cancel: string = 'cancel';
+  @Input() accept: string = '';
+  @Input() cancel: string = '';
 
   isShow: boolean = false;
-  ngOnInit(): void {
-    this.isShow = true;
+  constructor(private _toastService: ToastService) {
+    this._toastService.showToast.subscribe((isShow) => {
+      this.isShow = isShow;
+    });
   }
+  ngOnInit(): void {}
 
   onAccept() {
-    this.isShow = false;
+    this._toastService.showToast.next(false);
   }
 
   onCancel() {
-    this.isShow = false;
+    this._toastService.showToast.next(false);
   }
 }

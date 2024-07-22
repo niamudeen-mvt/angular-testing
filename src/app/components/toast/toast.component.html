@@ -8,13 +8,13 @@
                 <div class="mb-3 text-xs font-normal">{{desc}}</div>
                 <div class="grid grid-cols-2 gap-2">
                     <button
-                        class="text-black inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center  bg-soft-theme rounded-lg hover:bg-dark-theme"
-                        (click)="onAccept()">
+                        class="text-black inline-flex justify-center w-full px-5 py-1.5 text-xs font-medium text-center  bg-soft-theme rounded-lg hover:bg-dark-theme capitalize"
+                        (click)="onAccept()" *ngIf="accept">
                         {{accept}}
                     </button>
                     <button type="button"
                         class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200"
-                        (click)="onCancel()">
+                        (click)="onCancel()" *ngIf="cancel">
 
                         {{cancel}}
                     </button>
