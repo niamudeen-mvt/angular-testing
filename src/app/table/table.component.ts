@@ -30,10 +30,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(
-    private _apiService: ApiService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.fetchUsers();
@@ -41,9 +38,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   fetchUsers() {
     this.showLoader = true;
-    this.subscription = this._apiService
-      .get('https://jsonplaceholder.typicode.com/users')
-      .subscribe((res: any) => {
+
+    fetch('https://jsonplaceholder.typicode.com/users').then((res) => {
+      res.json().then((res) => {
         if (res.length > 0) {
           const usersList = res.map((user: any) => ({
             id: user.id,
@@ -59,6 +56,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
           this.cdr.detectChanges();
         }
       });
+    });
   }
 
   ngAfterViewInit() {

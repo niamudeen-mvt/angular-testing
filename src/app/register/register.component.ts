@@ -5,11 +5,12 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { ToastService } from '../service/toast.service';
 import { ToastComponent } from '../components/toast/toast.component';
+import { ApiService } from '../service/api.service';
+import { catchError } from 'rxjs';
+import { NotificationService } from '../service/notification.service';
 
 @Component({
   selector: 'app-register',
@@ -27,13 +28,10 @@ import { ToastComponent } from '../components/toast/toast.component';
 export class RegisterComponent {
   isFormSubmitted: boolean = false;
   signupForm = new FormGroup({
-    username: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(3),
-    ]),
-    phone: new FormControl('', [Validators.required, Validators.maxLength(10)]),
+    username: new FormControl(''),
+    email: new FormControl(''),
+    password: new FormControl(''),
+    phone: new FormControl(''),
   });
 
   signupFormArray: any[] = [
@@ -50,36 +48,69 @@ export class RegisterComponent {
       name: 'phone',
     },
   ];
-  errorMessage: any = {
-    required: 'This field is required',
-    email: 'The email is not valid',
-    password: 'Password must contain at least 3 characters',
-    phone: 'Phone number must contain at least 10 characters',
-  };
+  errorMessage: any = [];
   showToast: boolean = false;
-  constructor(private router: Router, private _toastService: ToastService) {}
+  toast: any;
+  constructor(
+    private _apiService: ApiService,
+    private _notificationService: NotificationService,
+    private _router: Router
+  ) {}
 
   onSubmit() {
-    this.isFormSubmitted = true;
-    if (this.signupForm.valid) {
-      const { username, email, password, phone } = this.signupForm.value;
-      const currentUser = {
-        username,
-        email,
-        password,
-        phone,
-      };
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const { username, email, password, phone } = this.signupForm.value;
 
-      if (user.email === email) {
-        this._toastService.showToast.next(true);
-      } else {
-        this._toastService.showToast.next(false);
-        localStorage.setItem('user', JSON.stringify(currentUser));
-        this.router.navigate(['/login']);
-        this.isFormSubmitted = false;
-        this.signupForm.reset();
-      }
+    if (!username || !email || !password || !phone) {
+      this._notificationService.showNotification(
+        'Please fill all the fields',
+        'Warning'
+      );
+      return false;
     }
+
+    const payload = {
+      username,
+      email,
+      password,
+      phone,
+    };
+    this._apiService
+      .post('auth/register', payload)
+      .pipe(
+        catchError((res: any) => {
+          console.log(res);
+          if (res?.error?.CODE === 'ALREADY_EXISTS') {
+            this._notificationService.showNotification(
+              'This email is already registered',
+              'Warning'
+            );
+            return;
+          }
+          if (res?.error?.errors?.length > 0) {
+            this.errorMessage = res?.error?.errors.map(
+              (error: any) => error.msg
+            );
+            this._notificationService.showNotification(
+              this.errorMessage[0],
+              'Warning'
+            );
+          }
+
+          return res;
+        })
+      )
+      .subscribe((res: any) => {
+        if (res?.CODE === 'SUCCESS') {
+          this._notificationService.showNotification(
+            'User logged in successfully',
+            'Success'
+          );
+          this.signupForm.reset();
+          this._router.navigate(['/dashboard']);
+        }
+        return res;
+      });
+
+    return false;
   }
 }
