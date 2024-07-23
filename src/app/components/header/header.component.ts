@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userId');
     this._router.navigate(['/login']);
     this._authService.isLoggedIn.next(false);
   }

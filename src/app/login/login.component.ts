@@ -85,6 +85,9 @@ export class LoginComponent implements OnInit {
       .subscribe((res: any) => {
         if (res?.CODE === 'SUCCESS') {
           localStorage.setItem('isLoggedIn', 'true');
+          if (res?.user?.id) {
+            localStorage.setItem('userId', res.user.id);
+          }
           this._authService.isLoggedIn.next(true);
           this._router.navigate(['/dashboard']);
           this._notificationService.showNotification(
