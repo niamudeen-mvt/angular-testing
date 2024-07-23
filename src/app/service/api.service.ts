@@ -7,12 +7,13 @@ import { Injectable } from '@angular/core';
 export class ApiService {
   constructor(private _http: HttpClient) {}
 
-  public get(url: string) {
-    return this._http.get(url);
+  BASE_URL: string = 'http://localhost:7000/api/v1/';
+
+  public get(endpoint: string) {
+    return this._http.get(`${this.BASE_URL}${endpoint}`);
   }
 
-  public post(url: string, data: any) {
-    return this._http.post(url, data);
+  public post(endpoint: string, data: any) {
+    return this._http.post(`${this.BASE_URL}${endpoint}`, data);
   }
-
 }

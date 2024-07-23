@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthGuard } from '../service/auth-guard.service';
+import { AuthService } from '../service/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,10 +10,10 @@ import { Router } from '@angular/router';
   styleUrl: './not-found.component.css',
 })
 export class NotFoundComponent {
-  constructor(private _authGuard: AuthGuard, private _router: Router) {}
+  constructor(private _authService: AuthService, private _router: Router) {}
 
   goBack() {
-    this._authGuard.isLoggedIn.subscribe((isLoggedIn) => {
+    this._authService.isLoggedIn.subscribe((isLoggedIn) => {
       if (isLoggedIn) {
         this._router.navigate(['/dashboard']);
       } else {

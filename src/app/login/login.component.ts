@@ -8,8 +8,7 @@ import {
 } from '@angular/forms';
 import { InputComponent } from '../components/input/input.component';
 import { Router, RouterLink } from '@angular/router';
-import { AuthGuard } from '../service/auth-guard.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../service/auth.service';
 import { ToastComponent } from '../components/toast/toast.component';
 import { ToastService } from '../service/toast.service';
 @Component({
@@ -36,7 +35,7 @@ export class LoginComponent implements OnInit {
     ]),
   });
   constructor(
-    private _authGuard: AuthGuard,
+    private _authService: AuthService,
     private _router: Router,
     private _cd: ChangeDetectorRef,
     private _toastService: ToastService
@@ -51,10 +50,10 @@ export class LoginComponent implements OnInit {
 
       const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
       if (currentUser.email === email && currentUser.password === password) {
-        this._authGuard.isLoggedIn.next(true);
+        this._authService.isLoggedIn.next(true);
         localStorage.setItem('isLoggedIn', 'true');
         this._cd.detectChanges();
-        // this.formGroup.reset();
+        this.formGroup.reset();
         this._router.navigate(['/dashboard']);
 
         this._toastService.showToast.next(false);

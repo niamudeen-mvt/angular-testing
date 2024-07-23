@@ -11,8 +11,7 @@ import { ToastComponent } from './components/toast/toast.component';
 import { TranslationService } from './service/translate.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
-import { publicRoutes, routes } from './app.routes';
-import { AuthGuard } from './service/auth-guard.service';
+import { routes } from './app.routes';
 
 @Component({
   selector: 'app-root',
@@ -34,19 +33,12 @@ export class AppComponent implements OnInit {
   constructor(
     private _translate: TranslateService,
     private _translationService: TranslationService,
-    private _router: Router,
-    private _authGuard: AuthGuard
+    private _router: Router
   ) {
     this._translationService.currentLang$.subscribe((lang) => {
       this._translate.use(lang);
     });
     this._translate.setDefaultLang('en');
-
-    this._authGuard.isLoggedIn.subscribe((isLoggedIn) => {
-      if (isLoggedIn && publicRoutes.includes(this.currentHandle)) {
-        this._router.navigate(['/dashboard']);
-      }
-    });
   }
 
   ngOnInit() {

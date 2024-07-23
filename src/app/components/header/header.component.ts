@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthGuard } from '../../service/auth-guard.service';
+import { AuthService } from '../../service/auth.service';
 import { routes } from '../../app.routes';
 
 @Component({
@@ -17,12 +17,12 @@ export class HeaderComponent implements OnInit {
   protectedRoutes = ['dashboard'];
   publicRoutes = ['', 'register', 'login'];
 
-  constructor(private _authGuard: AuthGuard, private _router: Router) {}
+  constructor(private _authService: AuthService, private _router: Router) {}
 
   ngOnInit() {
     this.navMenu = routes;
 
-    this._authGuard.isLoggedIn.subscribe((isLoggedIn) => {
+    this._authService.isLoggedIn.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
     });
   }
@@ -30,6 +30,6 @@ export class HeaderComponent implements OnInit {
   logout() {
     localStorage.removeItem('isLoggedIn');
     this._router.navigate(['/login']);
-    this._authGuard.isLoggedIn.next(false);
+    this._authService.isLoggedIn.next(false);
   }
 }
